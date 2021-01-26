@@ -1,24 +1,36 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Signup from './components/Signup'
+import { AuthProvider } from './context/authContext';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import Dashboard from './components/Dashboard';
+import Login from './components/Login';
+import ForgotPassword from './components/ForgotPassword'
+import PrivateRoute from './components/PrivateRoute';
+import UpdateProfile from './components/UpdateProfile';
+import { HeaderComponent, TitleComponent } from './styles/styles';
+import InProgress from './components/InProgress';
+import Recent from './components/Recent';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App" style={{display: 'flex', flexDirection: 'column', flex: 1}}>
+      {/* <HeaderComponent>
+        <TitleComponent>Keys</TitleComponent>
+      </HeaderComponent> */}
+      <Router>
+        <AuthProvider>
+          <Switch>
+            <PrivateRoute path="/" component={Dashboard} exact />
+            <PrivateRoute path="/in-progress" component={InProgress} exact />
+            <PrivateRoute path="/recent" component={Recent} exact />
+            <PrivateRoute path="/update-profile" component={UpdateProfile} exact />
+            <Route path="/signup" component={Signup} />
+            <Route path="/login" component={Login} />
+            <Route path="/forgot-password" component={ForgotPassword} />
+          </Switch>
+        </AuthProvider>
+      </Router>
     </div>
   );
 }
